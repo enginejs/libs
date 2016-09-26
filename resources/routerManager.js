@@ -41,31 +41,3 @@ var Router = {
         history.pushState(null, null, path);
     }
 }; 
-
-
-Router
-.add('abv.bg',function(){
-    window.location.href = "//google.com";
-})
-.add('test1',function(){
-    $("#t").html('Test 1');
-})
-.add('test2',function(){
-    $("#t").html('Test 2');
-})
-.add('test3',function(){
-    $("#t").html('Test 3');
-})
-.add('/test4',function(){
-    $("#t").html('Test 4');
-})
-.add('getting-started/step/.*',function(){
-
-    var stepId = location.pathname.split('/')[3];
-
-    pageContentManager.load('getting-started/step/' + stepId, function(){
-        APP.controller.gettingStarted(stepId);
-    });
-})
-.listen();
-
