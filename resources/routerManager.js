@@ -39,5 +39,21 @@ var Router = {
     },
     navigate: function(path) {
         history.pushState(null, null, path);
+    },
+    mapLinks: function(element) {
+
+        var self = this;
+
+        $(element).find("a").on('click', function(e) {
+            e.preventDefault();
+
+            var href = $(this).attr('href');
+
+            if (href == "#" || href == "") {
+                return;
+            }
+
+            self.navigate(href);
+        });
     }
 }; 
