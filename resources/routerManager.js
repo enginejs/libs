@@ -1,5 +1,6 @@
 var Router = {
     routes: [],
+    defaultRouter: function() {},
     getCurrentPath: function() {
         return decodeURI(location.pathname).replace(/\/$/, '');
     },
@@ -7,7 +8,16 @@ var Router = {
         this.routes.push({request: "/" + request, handler: handler});
         return this;
     },
+    addDefault: function(handler) {
+        this.defaultRouter = handler;
+        return this;
+    },
     check: function(path) {
+
+        if (path == "") {
+            this.defaultRouter();
+            return;
+        }
 
         for(var i = 0; i < this.routes.length; i++) {
             var checkRoute = this.routes[i];
