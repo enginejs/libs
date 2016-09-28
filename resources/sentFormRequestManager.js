@@ -82,31 +82,3 @@ var sentFormRequestManager = {
 };
 
 
-$(function() { 
-
-	APP.controller.settingsChangePassword = function() 
-	{
-		var formInstance = $('#page-content').find('form').first();
-		
-		sentFormRequestManager.init(formInstance);
-		sentFormRequestManager.subscribe('success', function() {
-			formInstance.parent('div').first().html('Success password change!');
-		});
-
-		sentFormRequestManager.subscribe('error', function() {
-
-		});
-
-		sentFormRequestManager.subscribe('before', function(data) {
-			var sentData = data['sentData'];
-
-			if (sentData['newPasswordConfirm'] != sentData['newPassword']) {
-				return 'Password conformtion is not right';
-			}
-
-			return true;
-		});
-	};
-	
-	
-});
