@@ -3,7 +3,8 @@ var pageContentManager = {
 	// internal meta data.
 	contentInstance: null,
 	urlPrefix: '',
-	
+	viewFilesPatterns: {},
+
 	// events.
 	beforeLoad: function() {},
 	afterLoad: function() {},
@@ -67,5 +68,8 @@ var pageContentManager = {
 			that.afterLoad();
 			that.onFail();
 		});
+	},
+	setViewFilesPatterns: function(newViewFilesPatterns) {
+		this.viewFilesPatterns = newViewFilesPatterns;
 	}
 };
