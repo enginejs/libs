@@ -4,6 +4,7 @@ var pageContentManager = {
 	contentInstance: null,
 	urlPrefix: '',
 	viewFilesPatterns: {},
+	clientManager: null,
 
 	// events.
 	beforeLoad: function() {},
@@ -29,6 +30,8 @@ var pageContentManager = {
 		if (typeof options['afterAllSuccess'] == 'function') {
 			this.afterAllSuccess = options.afterAllSuccess;
 		}
+
+		this.clientManager = options.clientManager;
 	},
 	load: function(url, onSuccessCallback) {
 		
@@ -39,34 +42,40 @@ var pageContentManager = {
 		that = this;
 		that.beforeLoad();
 
-		$.getJSON(that.urlPrefix + url, function(response){
-			
-			if (typeof response['partials'] != "undefined") {
-				var partials = response['partials'];
+		this.clientManager.get(that.urlPrefix + url, {
+			success: function(response) {
+				// console.log('SUCCESS');
+				// console.log(result);
+				if (typeof response['partials'] != "undefined") {
+					var partials = response['partials'];
 
-				for (partialName in partials) {
-					Handlebars.registerPartial(partialName, partials[partialName]);
+					for (partialName in partials) {
+						Handlebars.registerPartial(partialName, partials[partialName]);
+					}
 				}
-			}
 
-            // load pageConfig
-			if (typeof response['config'] == "undefined") {
-				APP.pageConfig = {};
-			} else {
-				APP.pageConfig = response['config'];
-			}
+				// load pageConfig
+				if (typeof response['config'] == "undefined") {
+					APP.pageConfig = {};
+				} else {
+					APP.pageConfig = response['config'];
+				}
 
-			// @todo catch errors here
-			var template = Handlebars.compile(response['template']);
-			that.contentInstance.html(template(response['data']));
+				// @todo catch errors here
+				var template = Handlebars.compile(response['template']);
+				that.contentInstance.html(template(response['data']));
 
-			that.afterAllSuccess();
-			onSuccessCallback(response['data']);
-			that.afterLoad();
+				that.afterAllSuccess();
+				onSuccessCallback(response['data']);
+				that.afterLoad();
 
-		}).fail(function(){
-			that.afterLoad();
-			that.onFail();
+			},
+			error: function(result) {
+				// console.log('ERROR');
+				// console.log(result);
+				that.afterLoad();
+				that.onFail();
+			},
 		});
 	},
 	setViewFilesPatterns: function(newViewFilesPatterns) {
