@@ -44,31 +44,47 @@ var pageContentManager = {
 
 		this.clientManager.get(that.urlPrefix + url, {
 			success: function(response) {
-				// console.log('SUCCESS');
-				// console.log(result);
-				if (typeof response['partials'] != "undefined") {
-					var partials = response['partials'];
 
-					for (partialName in partials) {
-						Handlebars.registerPartial(partialName, partials[partialName]);
+				// is there view pattern for place where it could download file.
+				for (viewFilePattern in that.viewFilesPatterns) {
+					if (url.match(viewFilePattern)) {
+
+						var viewFileDetail = that.viewFilesPatterns[viewFilePattern];
+						
+						var view = viewFileDetail['view'];
+						var partials = viewFileDetail['partials'];
+
+						if (typeof partials != "undefined") {
+							for (partialName in partials) {
+								Handlebars.registerPartial(partialName, partials[partialName]);
+							}
+						}
+
+						var getView = function(viewName, onLoad)
+						{
+							// to keep it on localstorage in order to save network
+							$.get("/view/" + viewName + ".html", function(data) {
+								onLoad(data);
+							});
+							// catch error in case it not able to load it.
+						};
+
+						getView(view, function(viewContent){
+							// @todo catch errors here
+							var template = Handlebars.compile(viewContent);
+							that.contentInstance.html(template(response['data']));
+
+							that.afterAllSuccess();
+							onSuccessCallback(response['data']);
+							that.afterLoad();
+
+						});
+
+						break; // stop once it has a match.
 					}
 				}
-
-				// load pageConfig
-				if (typeof response['config'] == "undefined") {
-					APP.pageConfig = {};
-				} else {
-					APP.pageConfig = response['config'];
-				}
-
-				// @todo catch errors here
-				var template = Handlebars.compile(response['template']);
-				that.contentInstance.html(template(response['data']));
-
-				that.afterAllSuccess();
-				onSuccessCallback(response['data']);
+				console.log("There is a no view pattern for this page.");
 				that.afterLoad();
-
 			},
 			error: function(result) {
 				// console.log('ERROR');
