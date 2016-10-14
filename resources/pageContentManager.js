@@ -55,6 +55,7 @@ var pageContentManager = {
 						var partials = viewFileDetail['partials'];
 
 						if (typeof partials != "undefined") {
+							// this should not work, it should actually load file!
 							for (partialName in partials) {
 								Handlebars.registerPartial(partialName, partials[partialName]);
 							}
@@ -63,7 +64,7 @@ var pageContentManager = {
 						var getView = function(viewName, onLoad)
 						{
 							// to keep it on localstorage in order to save network
-							$.get("/view/" + viewName + ".html", function(data) {
+							$.get("/static/view/" + viewName + ".html", function(data) {
 								onLoad(data);
 							});
 							// catch error in case it not able to load it.
