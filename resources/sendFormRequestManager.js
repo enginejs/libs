@@ -1,4 +1,4 @@
-var sentFormRequestManager = {
+var sendFormRequestManager = {
 	init: function(formInstance, treatAllErrorAsGeneral) {
 
 		var that = this;
