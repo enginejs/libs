@@ -41,10 +41,18 @@ var sendFormRequestManager =
             }
             that.requestInProgress = true;
 
-            var sentData = {};
+            var sendData = {};
             that.formInstance.serializeArray().map(function(item){
-                sentData[item.name] = item.value;
+                sendData[item.name] = item.value;
             });
+
+            var executeBefore = that.beforeSubmitCallback(sendData);
+
+            if (typeof executeBefore['status'] != "undefined") {
+                if (executeBefore['status'] == 'generalError') {
+                    that.onGeneralError(executeBefore['message']);
+                }
+            }
 
             // that should be post not get request.
             that.apiClient.get(submitUrl, {
@@ -65,7 +73,7 @@ var sendFormRequestManager =
                     } else if (status == 400) {
                         that.onGeneralError(response);
                     } else {
-                        console.log("NO idea about this error");
+                        console.log("Something went wrong");
                     }
                 },
             });
