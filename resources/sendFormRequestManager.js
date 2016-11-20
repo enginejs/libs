@@ -55,7 +55,7 @@ var sendFormRequestManager =
             }
 
             // that should be post not get request.
-            that.apiClient.get(submitUrl, {
+            that.apiClient.post(submitUrl, {}, {
                 success: function(response) {
                     that.requestInProgress = false;
                     // call propar erro based on status code
@@ -83,7 +83,7 @@ var sendFormRequestManager =
     {
         for (var index in errors) {
             var firstErorrField = errors[index];
-            
+
             for (var index2 in firstErorrField) {
                 return firstErorrField[index2];
             }
