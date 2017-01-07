@@ -50,7 +50,9 @@ var sendFormRequestManager =
 
             if (typeof executeBefore != "undefined") {
                 if (executeBefore['status'] == 'generalError') {
-                    that.onGeneralError(executeBefore['message']);
+                    that.onGeneralErrorCallback(executeBefore['message']);
+                    that.requestInProgress = false; 
+                    return; // if there is an error we don't want to continue. 
                 }
             }
 
