@@ -50,7 +50,7 @@ var sendFormRequestManager =
 
             if (typeof executeBefore != "undefined") {
                 if (executeBefore['status'] == 'generalError') {
-                    that.onGeneralErrorCallback(executeBefore['message']);
+                    that.onGeneralErrorCallback({'error': executeBefore['message']});
                     that.requestInProgress = false; 
                     return; // if there is an error we don't want to continue. 
                 }
@@ -67,12 +67,12 @@ var sendFormRequestManager =
 
                     if (status == 422) {
                         if (that.treatAllErrorAsGeneral) {
-                            that.onGeneralErrorCallback(that.getFirstErrorField(response));
+                            that.onGeneralErrorCallback(response);
                         } else {
                             that.onErrorCallback(response);
                         }
                     } else if (status == 400) {
-                        that.onGeneralError(response);
+                        that.onGeneralErrorCallback(response);
                     } else {
                         console.log("Something went wrong");
                     }
