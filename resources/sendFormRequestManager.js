@@ -54,8 +54,7 @@ var sendFormRequestManager =
                 }
             }
 
-            // that should be post not get request.
-            that.apiClient.post(that.submitUrl, {}, {
+            that.apiClient.post(that.submitUrl, sendData, {
                 success: function(response) {
                     that.requestInProgress = false;
                     // call propar erro based on status code
