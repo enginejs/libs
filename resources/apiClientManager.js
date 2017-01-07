@@ -20,11 +20,12 @@ var apiClientManager = {
     delete: function(url, callback) {
         this.request('DELETE', url, callback);
     },
-    request: function(type, url, callback) {
+    request: function(type, url, callback, data) {
         var that = this;
         $.ajax({
             url: (this.baseUrl + url),
             type: type,
+            data: data,
             success: function(result) {
                 callback.success(JSON.parse(result));
             },
