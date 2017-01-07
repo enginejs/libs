@@ -26,8 +26,9 @@ var apiClientManager = {
             url: (this.baseUrl + url),
             type: type,
             data: data,
+            dataType: "json",
             success: function(result) {
-                callback.success(JSON.parse(result));
+                callback.success(result);
             },
             error: function(result) {
                 try {
