@@ -48,14 +48,14 @@ var sendFormRequestManager =
 
             var executeBefore = that.beforeSubmitCallback(sendData);
 
-            if (typeof executeBefore['status'] != "undefined") {
+            if (typeof executeBefore != "undefined") {
                 if (executeBefore['status'] == 'generalError') {
                     that.onGeneralError(executeBefore['message']);
                 }
             }
 
             // that should be post not get request.
-            that.apiClient.post(submitUrl, {}, {
+            that.apiClient.post(that.submitUrl, {}, {
                 success: function(response) {
                     that.requestInProgress = false;
                     // call propar erro based on status code
