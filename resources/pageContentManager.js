@@ -5,6 +5,7 @@ var pageContentManager = {
 	urlPrefix: '',
 	viewFilesPatterns: {},
 	clientManager: null,
+	changeTemplate: function() {},
 
 	// events.
 	beforeLoad: function() {},
@@ -31,6 +32,10 @@ var pageContentManager = {
 			this.afterAllSuccess = options.afterAllSuccess;
 		}
 
+		if (typeof options['changeTemplate'] == 'function') {
+			this.changeTemplate = options.changeTemplate;
+		}
+
 		this.clientManager = options.clientManager;
 	},
 	load: function(url, onSuccessCallback) {
@@ -53,7 +58,11 @@ var pageContentManager = {
 						
 						var view = viewFileDetail['view'];
 						var partials = viewFileDetail['partials'];
+						var template = viewFileDetail['template'];
 
+						that.changeTemplate(template);
+
+						// view
 						if (typeof partials != "undefined") {
 							// this should not work, it should actually load file!
 							for (partialName in partials) {
