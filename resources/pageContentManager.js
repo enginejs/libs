@@ -40,7 +40,7 @@ var pageContentManager = {
 		}
 		
 		that = this;
-		that.beforeLoad();
+		that.beforeLoad(url);
 
 		this.clientManager.get(that.urlPrefix + url, {
 			success: function(response) {
