@@ -50,14 +50,16 @@ var pageContentManager = {
 		for (viewFilePattern in that.viewFilesPatterns) {
 			if (url.match(viewFilePattern)) {
 
-				this.clientManager.get(that.urlPrefix + url, {
+				var viewFileDetail = that.viewFilesPatterns[viewFilePattern];
+
+				var view = viewFileDetail['view'];
+				var partials = viewFileDetail['partials'];
+				var template = viewFileDetail['template'];
+				var loadData = viewFileDetail['loadData'];
+
+				loadPage = {
 					success: function(response) {
 
-						var viewFileDetail = that.viewFilesPatterns[viewFilePattern];
-						
-						var view = viewFileDetail['view'];
-						var partials = viewFileDetail['partials'];
-						var template = viewFileDetail['template'];
 						that.changeTemplate(template);
 
 						// view
@@ -97,7 +99,13 @@ var pageContentManager = {
 						that.afterLoad();
 						that.onFail();
 					},
-				});
+				}
+
+				if (loadData == false) {
+					loadPage.success({'data' : null});
+				} else {
+					this.clientManager.get(that.urlPrefix + url, loadPage);
+				}
 
 				break; // stop once it has a match.
 			}
