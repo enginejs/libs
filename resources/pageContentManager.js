@@ -1,7 +1,6 @@
 var pageContentManager = {
 
 	// internal meta data.
-	contentInstance: null,
 	urlPrefix: '',
 	viewFilesPatterns: {},
 	clientManager: null,
@@ -14,8 +13,6 @@ var pageContentManager = {
 	onFail: function() { console.log('Something wrong happend.') },
 
 	config: function(options) {
-		this.contentInstance = options.contentInstance;
-
 		if (typeof options.urlPrefix == 'string') {
 			this.urlPrefix = options.urlPrefix;
 		}
@@ -51,16 +48,15 @@ var pageContentManager = {
 			if (url.match(viewFilePattern)) {
 
 				var viewFileDetail = that.viewFilesPatterns[viewFilePattern];
-
+				
 				var view = viewFileDetail['view'];
 				var partials = viewFileDetail['partials'];
 				var template = viewFileDetail['template'];
 				var loadData = viewFileDetail['loadData'];
-
+				
 				loadPage = {
 					success: function(response) {
-
-						that.changeTemplate(template);
+						var pageContentInstance = that.changeTemplate(template);
 
 						// view
 						if (typeof partials != "undefined") {
@@ -82,7 +78,7 @@ var pageContentManager = {
 						getView(view, function(viewContent){
 							// @todo catch errors here
 							var template = Handlebars.compile(viewContent);
-							that.contentInstance.html(template(response['data']));
+							pageContentInstance.html(template(response['data']));
 
 							that.afterAllSuccess();
 							onSuccessCallback(response['data']);
