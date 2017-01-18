@@ -47,19 +47,17 @@ var pageContentManager = {
 		that = this;
 		that.beforeLoad(url);
 
-		this.clientManager.get(that.urlPrefix + url, {
-			success: function(response) {
+		for (viewFilePattern in that.viewFilesPatterns) {
+			if (url.match(viewFilePattern)) {
 
-				// is there view pattern for place where it could download file.
-				for (viewFilePattern in that.viewFilesPatterns) {
-					if (url.match(viewFilePattern)) {
+				this.clientManager.get(that.urlPrefix + url, {
+					success: function(response) {
 
 						var viewFileDetail = that.viewFilesPatterns[viewFilePattern];
 						
 						var view = viewFileDetail['view'];
 						var partials = viewFileDetail['partials'];
 						var template = viewFileDetail['template'];
-
 						that.changeTemplate(template);
 
 						// view
@@ -90,19 +88,20 @@ var pageContentManager = {
 
 						});
 
-						break; // stop once it has a match.
-					}
-				}
-				console.log("There is a no view pattern for this page.");
-				that.afterLoad();
-			},
-			error: function(result) {
-				// console.log('ERROR');
-				// console.log(result);
-				that.afterLoad();
-				that.onFail();
-			},
-		});
+						// console.log("There is a no view pattern for this page.");
+						that.afterLoad();
+					},
+					error: function(result) {
+						// console.log('ERROR');
+						// console.log(result);
+						that.afterLoad();
+						that.onFail();
+					},
+				});
+
+				break; // stop once it has a match.
+			}
+		}
 	},
 	setViewFilesPatterns: function(newViewFilesPatterns) {
 		this.viewFilesPatterns = newViewFilesPatterns;
