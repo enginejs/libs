@@ -56,7 +56,13 @@ var sendFormRequestManager =
                 }
             }
 
-            that.apiClient.post(that.submitUrl, sendData, {
+            if (typeof that.submitUrl == 'function') {
+                submitUrl = that.submitUrl();
+            } else {
+                submitUrl = that.submitUrl;
+            }
+
+            that.apiClient.post(submitUrl, sendData, {
                 success: function(response) {
                     that.requestInProgress = false;
                     // call propar erro based on status code
