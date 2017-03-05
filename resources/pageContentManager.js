@@ -35,7 +35,7 @@ var pageContentManager = {
 
 		this.clientManager = options.clientManager;
 	},
-	load: function(url, onSuccessCallback, viewFileDetail) {
+	load: function(url, onSuccessCallback, config) {
 		
 		if (typeof onSuccessCallback == 'undefined') {
 			onSuccessCallback = function(){};
@@ -44,14 +44,10 @@ var pageContentManager = {
 		that = this;
 		that.beforeLoad(url);
 
-		var view = viewFileDetail['view'];
-		var partials = viewFileDetail['partials'];
-		var template = viewFileDetail['template'];
-		var loadData = viewFileDetail['loadData'];
-
 		loadPage = {
 			success: function(response) {
-				var pageContentInstance = that.changeTemplate(template);
+				var partials = config['partials'];
+				var pageContentInstance = that.changeTemplate(config['template']);
 
 				// view
 				if (typeof partials != "undefined") {
@@ -70,7 +66,7 @@ var pageContentManager = {
 					// catch error in case it not able to load it.
 				};
 
-				getView(view, function(viewContent){
+				getView(config['view'], function(viewContent){
 					// @todo catch errors here
 					var template = Handlebars.compile(viewContent);
 					pageContentInstance.html(template(response['data']));
@@ -92,7 +88,7 @@ var pageContentManager = {
 			},
 		}
 
-		if (loadData == false) {
+		if (config['loadData'] == false) {
 			loadPage.success({'data' : null});
 		} else {
 			this.clientManager.get(that.urlPrefix + url, loadPage);
