@@ -21,7 +21,7 @@ var Router = {
 
         for(var i = 0; i < this.routes.length; i++) {
             var checkRoute = this.routes[i];
-            var match = path.match(checkRoute.request);
+            var match = path.match(new RegExp("^" + checkRoute.request + "$"));
 
             if(match) {
                 match.shift();
