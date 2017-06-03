@@ -35,14 +35,19 @@ var pageContentManager = {
 
 		this.clientManager = options.clientManager;
 	},
-	load: function(url, onSuccessCallback, config) {
+	load: function(onSuccessCallback, config) {
 		
 		if (typeof onSuccessCallback == 'undefined') {
 			onSuccessCallback = function(){};
 		}
 
+		// if it's not a string, don't load it!
+		if (typeof config['loadData'] != 'string') {
+			config['loadData'] = false;
+		}
+
 		that = this;
-		that.beforeLoad(url);
+		that.beforeLoad();
 
 		loadPage = {
 			success: function(response) {
@@ -91,7 +96,7 @@ var pageContentManager = {
 		if (config['loadData'] == false) {
 			loadPage.success({'data' : null});
 		} else {
-			this.clientManager.get(that.urlPrefix + url, loadPage);
+			this.clientManager.get(that.urlPrefix + config['loadData'], loadPage);
 		}
 	}
 };
