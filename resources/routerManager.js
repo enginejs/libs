@@ -1,5 +1,6 @@
 var Router = {
     routes: [],
+    notFoundRouter: function() {}, 
     defaultRouter: function() {},
     getCurrentPath: function() {
         return decodeURI(location.pathname).replace(/\/$/, '');
@@ -10,6 +11,10 @@ var Router = {
     },
     addDefault: function(handler) {
         this.defaultRouter = handler;
+        return this;
+    },
+    addNotFound: function(handler) {
+        this.notFoundRouter = handler;
         return this;
     },
     check: function(path) {
@@ -29,6 +34,7 @@ var Router = {
                 return;
             }
         }
+        this.notFoundRouter();
     },
     listen: function() {
 
