@@ -1,4 +1,4 @@
-var sendFormRequestManager = 
+var EngineJS_sendFormRequestManage = 
 {
     formInstance: null,
     treatAllErrorAsGeneral: true,

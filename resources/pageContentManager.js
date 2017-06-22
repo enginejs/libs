@@ -1,4 +1,4 @@
-var pageContentManager = {
+var EngineJS_pageContentManager = {
 
 	// internal meta data.
 	urlPrefix: '',

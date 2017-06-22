@@ -1,4 +1,4 @@
-var Router = {
+var EngineJS_routerManager = {
     routes: [],
     notFoundRouter: function() {}, 
     defaultRouter: function() {},

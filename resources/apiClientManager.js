@@ -1,4 +1,4 @@
-var apiClientManager = {
+var EngineJS_apiClientManager = {
     baseUrl: "",
     beforeSendCallback: function() {},
 
