@@ -9,20 +9,20 @@ var EngineJS_apiClientManager = {
         this.beforeSendCallback = callback;
     },
     get: function(url, callback) {
-        this.request('GET', url, callback);
+        return this.request('GET', url, callback);
     },
     post: function(url, data, callback) {
-        this.request('POST', url, callback, data);
+        return this.request('POST', url, callback, data);
     },
     put: function(url, data, callback) {
-        this.request('PUT', url, callback, data);
+        return this.request('PUT', url, callback, data);
     },
     delete: function(url, callback) {
-        this.request('DELETE', url, callback);
+        return this.request('DELETE', url, callback);
     },
     request: function(type, url, callback, data) {
         var that = this;
-        $.ajax({
+        return $.ajax({
             url: (this.baseUrl + url),
             type: type,
             data: data,
