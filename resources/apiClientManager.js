@@ -21,6 +21,13 @@ var EngineJS_apiClientManager = {
         return this.request('DELETE', url, callback);
     },
     request: function(type, url, callback, data) {
+        if (typeof callback == 'undefined') {
+            callback = {
+                error: function() {},
+                success: function() {}
+            };
+        }
+
         var that = this;
         return $.ajax({
             url: (this.baseUrl + url),
