@@ -29,6 +29,10 @@ var EngineJS_pageContentManager = {
 			this.afterAllSuccess = options.afterAllSuccess;
 		}
 
+		if (typeof options['onFail'] == 'function') {
+			this.onFail = options.onFail;
+		}
+
 		if (typeof options['changeTemplate'] == 'function') {
 			this.changeTemplate = options.changeTemplate;
 		}
@@ -81,15 +85,11 @@ var EngineJS_pageContentManager = {
 					that.afterLoad();
 
 				});
-
-				// console.log("There is a no view pattern for this page.");
 				that.afterLoad();
 			},
-			error: function(result) {
-				// console.log('ERROR');
-				// console.log(result);
+			error: function(response) {
 				that.afterLoad();
-				that.onFail();
+				that.onFail(response);
 			},
 		}
 
