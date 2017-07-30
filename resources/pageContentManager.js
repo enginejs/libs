@@ -87,9 +87,9 @@ var EngineJS_pageContentManager = {
 				});
 				that.afterLoad();
 			},
-			error: function(response) {
+			error: function(status, data) {
 				that.afterLoad();
-				that.onFail(response);
+				that.onFail(status, data);
 			},
 		}
 
