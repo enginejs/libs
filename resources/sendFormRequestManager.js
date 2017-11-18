@@ -11,6 +11,9 @@ var EngineJS_sendFormRequestManager =
     onSuccessCallback: function() {},
     beforeSubmitCallback: function() {},
 
+    beforeNetworkRequestCallback: function() {},
+    afterNetworkRequestCallback: function() {},
+
     init: function(newFormInstance, config) 
     {
         this.formInstance = $(newFormInstance);
@@ -62,14 +65,18 @@ var EngineJS_sendFormRequestManager =
                 submitUrl = that.submitUrl;
             }
 
+            that.beforeNetworkRequestCallback();
             that.apiClient.post(submitUrl, sendData, {
                 success: function(response) {
                     that.requestInProgress = false;
+                    that.afterNetworkRequestCallback();
+                    
                     // call propar erro based on status code
                     that.onSuccessCallback(response);
                 },
                 error: function(status, response) {
                     that.requestInProgress = false;
+                    that.afterNetworkRequestCallback();
 
                     if (status == 422) {
                         if (that.treatAllErrorAsGeneral) {
@@ -103,6 +110,14 @@ var EngineJS_sendFormRequestManager =
     onGeneralError: function(newOnGeneralError)
     {
         this.onGeneralErrorCallback = newOnGeneralError;
+    },
+    afterNetworkRequestCallback: function(newAfterNetworkRequestCallback)
+    {
+        this.afterNetworkRequestCallback = newAfterNetworkRequestCallback;
+    },
+    beforeNetworkRequestCallback: function(newBeforeNetworkRequestCallback)
+    {
+        this.beforeNetworkRequestCallback = newBeforeNetworkRequestCallback;
     },
     onSuccess: function(newOnSuccess)
     {
