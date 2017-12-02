@@ -61,17 +61,18 @@ var EngineJS_routerManager = {
         var self = this;
 
         $(element).find("a").on('click', function(e) {
-            e.preventDefault();
-
             var href = $(this).attr('href');
 
-            // don't make action, just igrnore it.
-            if (href == "#" || href == "") {
+            // this is external link to map it.
+            if (href.match("(https?:)?\/\/")) {
                 return;
             }
 
-            // this is external
-            if (href.match("(https?:)?\/\/")) {
+            // don't redirect for all internal links
+            e.preventDefault();
+
+            // don't make action, just igrnore it.
+            if (href == "#" || href == "") {
                 return;
             }
 
