@@ -55,16 +55,7 @@ var EngineJS_pageContentManager = {
 
 		loadPage = {
 			success: function(response) {
-				var partials = config['partials'];
 				var pageContentInstance = that.changeTemplate(config['template']);
-
-				// view
-				if (typeof partials != "undefined") {
-					// this should not work, it should actually load file!
-					for (partialName in partials) {
-						Handlebars.registerPartial(partialName, partials[partialName]);
-					}
-				}
 
 				var getView = function(viewName, onLoad)
 				{
