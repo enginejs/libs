@@ -65,11 +65,17 @@ var EngineJS_routerManager = {
 
             var href = $(this).attr('href');
 
+            // don't make action, just igrnore it.
             if (href == "#" || href == "") {
+                return;
+            }
+
+            // this is external
+            if (href.match("(https?:)?\/\/")) {
                 return;
             }
 
             self.navigate(href);
         });
     }
-}; 
+};
