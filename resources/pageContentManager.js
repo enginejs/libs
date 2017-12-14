@@ -71,7 +71,7 @@ var EngineJS_pageContentManager = {
 					var template = Handlebars.compile(viewContent);
 					pageContentInstance.html(template(response['data']));
 
-					that.afterAllSuccess();
+					that.afterAllSuccess(config['view']);
 					onSuccessCallback(response['data']);
 					that.afterLoad();
 
