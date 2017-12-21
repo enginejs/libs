@@ -56,6 +56,10 @@ var EngineJS_routerManager = {
     navigate: function(path) {
         history.pushState(null, null, path);
     },
+    refresh: function() {
+        var self = this;
+        this.check(self.getCurrentPath());        
+    }, 
     mapLinks: function(element) {
 
         var self = this;
