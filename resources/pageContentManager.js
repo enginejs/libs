@@ -1,7 +1,7 @@
 var EngineJS_pageContentManager = {
 
 	// internal meta data.
-	urlPrefix: '',
+	viewLoadUrlPrefx: '/static/view/',
 	viewFilesPatterns: {},
 	clientManager: null,
 	changeTemplate: function() {},
@@ -13,10 +13,9 @@ var EngineJS_pageContentManager = {
 	onFail: function() { console.log('Something wrong happend.') },
 
 	config: function(options) {
-		if (typeof options.urlPrefix == 'string') {
-			this.urlPrefix = options.urlPrefix;
+		if (typeof options.viewLoadUrlPrefx == 'string') {
+			this.viewLoadUrlPrefx = options.viewLoadUrlPrefx;
 		}
-
 		if (typeof options['beforeLoad'] == 'function') {
 			this.beforeLoad = options.beforeLoad;
 		}
@@ -60,7 +59,7 @@ var EngineJS_pageContentManager = {
 				var getView = function(viewName, onLoad)
 				{
 					// to keep it on localstorage in order to save network
-					$.get("/static/view/" + viewName + ".html", function(data) {
+					$.get(that.viewLoadUrlPrefx + viewName + ".html", function(data) {
 						onLoad(data);
 					});
 					// catch error in case it not able to load it.
@@ -87,7 +86,7 @@ var EngineJS_pageContentManager = {
 		if (config['loadData'] == false) {
 			loadPage.success({'data' : null});
 		} else {
-			this.clientManager.get(that.urlPrefix + config['loadData'], loadPage);
+			this.clientManager.get(config['loadData'], loadPage);
 		}
 	}
 };
