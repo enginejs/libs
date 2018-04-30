@@ -5,6 +5,7 @@ var EngineJS_sendFormRequestManager =
     apiClient: null,
     requestInProgress: false,
     submitUrl: null,
+    requestType: "POST",
 
     onErrorCallback: function() {},
     onGeneralErrorCallback: function() {},
@@ -32,6 +33,10 @@ var EngineJS_sendFormRequestManager =
 
         if (typeof config.submitUrl != "undefined") {
             this.submitUrl = config.submitUrl;
+        }
+
+        if (typeof config.requestType != "undefined") {
+            this.requestType = config.requestType;
         }
 
         var that = this;
@@ -66,7 +71,10 @@ var EngineJS_sendFormRequestManager =
             }
 
             that.beforeNetworkRequestCallback();
-            that.apiClient.post(submitUrl, sendData, {
+
+
+            callback = 
+            {
                 success: function(response) {
                     that.requestInProgress = false;
                     that.afterNetworkRequestCallback();
@@ -90,7 +98,13 @@ var EngineJS_sendFormRequestManager =
                         console.log("Something went wrong");
                     }
                 },
-            });
+            };
+
+            if (that.requestType == 'PUT') {
+                that.apiClient.put(submitUrl, sendData, callback);
+            } else {
+                that.apiClient.post(submitUrl, sendData, callback);
+            }
         });
     },
     getFirstErrorField: function(errors)

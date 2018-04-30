@@ -4,9 +4,9 @@ var EngineJS_liveEditManager =
     submitUrl: "",
 
     // events.
-    before: function() {},
-    onError: function() {},
-    onSuccess: function() {},
+    beforeCallback: function() {},
+    onErrorCallback: function() {},
+    onSuccessCallback: function() {},
 
     init: function(instance, options) {
         this.submitUrl = options.submitUrl;
@@ -19,16 +19,19 @@ var EngineJS_liveEditManager =
         var that = this;
 
         var saveChanges = function(newValue){
-            that.before(newValue, that.name);
+            that.beforeCallback(newValue, that.name);
 
-            var sendData = {};
+            var sendData = {
+                "name": that.name,
+                "value": newValue
+            };
 
             that.apiClient.put(that.submitUrl, sendData, {
                 success: function() {
-                    that.onSuccess(newValue, that.name);
+                    that.onSuccessCallback(newValue, that.name);
                 }, 
                 error: function() {
-                    that.onError(newValue, that.name);
+                    that.onErrorCallback(newValue, that.name);
                 }
             });
         };
@@ -72,12 +75,12 @@ var EngineJS_liveEditManager =
         }
     },
     before: function(before) {
-        this.before = before
+        this.beforeCallback = before
     },
     onError: function(onError) {
-        this.onError = onError
+        this.onErrorCallback = onError
     },
     onSuccess: function(onSuccess) {
-        this.onSuccess = onSuccess
+        this.onSuccessCallback = onSuccess
     },
 };

@@ -3,6 +3,7 @@ var EngineJS_loadingBarManager =
     currentProgressBar: null,
     isActive: false,
     mainElementId: "", 
+    contentOfMainElement: '<div class="rotating progress2" id="progress2"></div>',
     progressBarCircleConfig: {},
 
     beforeOpen: function(){},
@@ -21,7 +22,7 @@ var EngineJS_loadingBarManager =
             this.progressBarCircleConfig = options.progressBarCircleConfig;
         }
 
-        this.mainElementId = '#' + options.mainElementId
+        this.mainElementId = ('#' + options.mainElementId);
     },
     close: function() {        
         this.beforeClose();
@@ -36,9 +37,16 @@ var EngineJS_loadingBarManager =
     },
     open: function() {
         var that = this;
+        if (that.isActive) {
+            return ;
+        }
 
         this.beforeOpen();
-        that.currentProgressBar = new ProgressBar.Circle(this.mainElementId, this.progressBarCircleConfig);
+
+        // create the element.
+        $(this.mainElementId).html(that.contentOfMainElement);
+
+        that.currentProgressBar = new ProgressBar.Circle('#progress2', this.progressBarCircleConfig);
 
         that.isActive = true;
         actionNow = function onLoad() {
