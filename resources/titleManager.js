@@ -2,15 +2,19 @@
 * Title module displaying title tag based on current view
 */
 var EngineJS_titleManager = {
-    init: function(content, view) {
+    content: {},
+    init: function(content) {
+       this.content = content;
+    },
+    change: function(view) {
         var contentPageKey = view.replace(/\//g, '-');
-        var title = content[contentPageKey];
+        var title = this.content[contentPageKey];
 
         if(title === undefined) {
-            title = content['page-title-default'];
+            title = this.content['page-title-default'];
         }
 
-        var titleSuffix = content['page-title-suffix'];
+        var titleSuffix = this.content['page-title-suffix'];
         document.title = title + ' - ' + titleSuffix;
     }
 };
