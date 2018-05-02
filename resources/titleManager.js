@@ -3,18 +3,21 @@
 */
 var EngineJS_titleManager = {
     content: {},
-    init: function(content) {
+    titleDefault: "",
+    titleSuffix: "",
+    init: function(content, titleDefault, titleSuffix) {
        this.content = content;
+       this.titleDefault = titleDefault;
+       this.titleSuffix = titleSuffix;
     },
     change: function(view) {
         var contentPageKey = view.replace(/\//g, '-');
         var title = this.content[contentPageKey];
 
         if(title === undefined) {
-            title = this.content['page-title-default'];
+            title = this.defaultTitle;
         }
 
-        var titleSuffix = this.content['page-title-suffix'];
-        document.title = title + ' - ' + titleSuffix;
+        document.title = title + ' - ' + this.titleSuffix;
     }
 };
