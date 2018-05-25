@@ -15,9 +15,11 @@ var EngineJS_titleManager = {
         var title = this.content[contentPageKey];
 
         if(title === undefined) {
-            title = this.defaultTitle;
+            title = this.titleDefault;
+        } else {
+            title + ' - ' + this.titleSuffix;
         }
 
-        document.title = title + ' - ' + this.titleSuffix;
+        document.title = title;
     }
 };
