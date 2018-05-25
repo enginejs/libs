@@ -17,7 +17,7 @@ var EngineJS_titleManager = {
         if(title === undefined) {
             title = this.titleDefault;
         } else {
-            title + ' - ' + this.titleSuffix;
+            title += ' - ' + this.titleSuffix;
         }
 
         document.title = title;
