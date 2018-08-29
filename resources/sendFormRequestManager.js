@@ -92,7 +92,7 @@ var EngineJS_sendFormRequestManager =
                         if (that.treatAllErrorAsGeneral) {
                             that.onGeneralErrorCallback(response, that.formInstance);
                         } else {
-                            that.onErrorCallback(response);
+                            that.onErrorCallback(response, that.formInstance);
                         }
                     } else if (status == 400) {
                         that.onGeneralErrorCallback(response, that.formInstance);
