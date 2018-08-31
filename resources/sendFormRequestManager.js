@@ -60,7 +60,7 @@ var EngineJS_sendFormRequestManager =
                 if (executeBefore['status'] == 'generalError') {
                     that.onGeneralErrorCallback({'error': executeBefore['message']}, that.formInstance);
                 } else if (executeBefore['status'] == 'error') {
-                    that.onErrorCallback(executeBefore);
+                    that.onErrorCallback(executeBefore, that.formInstance);
                 }
                 that.requestInProgress = false; 
                 return; // if there is an error we don't want to continue. 
