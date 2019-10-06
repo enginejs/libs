@@ -54,7 +54,7 @@ var EngineJS_pageContentManager = {
 
 		loadPage = {
 			success: function(response) {
-				var pageContentInstance = that.changeTemplate(config['template']);
+				var pageContentInstance = that.changeTemplate(config['template'], response['data']);
 
 				var getView = function(viewName, onLoad)
 				{
