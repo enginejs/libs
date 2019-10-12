@@ -27,13 +27,24 @@ var EngineJS_apiClientManager = {
                 success: function() {}
             };
         }
-
+        
+        // FormData instace is passed instead of JSON, proably for file upload.
+        if (data instanceof FormData) {
+            processData = false;
+            contentType = false;
+        } else {
+            processData = true;
+            contentType = "application/json";
+        }
+        
         var that = this;
         return $.ajax({
             url: (this.baseUrl + url),
             type: type,
             data: data,
             dataType: "json",
+            processData: processData,
+            contentType: contentType,
             success: function(result) {
                 callback.success(result);
             },
